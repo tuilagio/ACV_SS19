@@ -10,10 +10,10 @@ model = ResNet50(weights='imagenet')
 while(True):
 
     img = listen.get_frame()
-    img = np.expand_dims(x, axis=0)
-    img = preprocess_input(x)
+    img = np.expand_dims(img, axis=0)
+    img = preprocess_input(img)
 
-    preds = model.predict(x)
+    preds = model.predict(img)
     predict_string = decode_predictions(preds, top=3)[0]
     predict_string = ''.join(str(predict_string[0]))
 

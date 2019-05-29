@@ -1,4 +1,3 @@
-
 '''Trains a simple convnet on the MNIST dataset.
 
 Gets to 99.25% test accuracy after 12 epochs
@@ -13,19 +12,69 @@ from keras.models import Sequential
 from keras.layers import Dense, Dropout, Flatten
 from keras.layers import Conv2D, MaxPooling2D
 from keras import backend as K
+from keras.preprocessing.image import ImageDataGenerator
+import cv2
+import os
 import sys
+import numpy as np
+
+
+nrows = 224
+ncolumns = 224
+channels = 3  # change to 1 if you want to use grayscale image
+
+
+def read_and_process_image(list_of_images, path):
+    """
+    Returns two arrays:
+        X is an array of resized images
+        y is an array of labels
+    """
+    X = []  # images
+    y = []  # labels
+
+    for image in list_of_images:
+        if image == '.DS_Store':
+            continue
+        # print(image)
+        X.append(cv2.resize(cv2.imread(path + image, cv2.IMREAD_COLOR), (nrows, ncolumns),
+                            interpolation=cv2.INTER_CUBIC))  # Read the image
+        y.append(image)
+
+    return np.array(X), np.array(y)
+
 
 batch_size = 128
-num_classes = 10
-epochs = 12
+num_classes = 1
+epochs = 8
 
 # input image dimensions
-img_rows, img_cols = 28, 28
+img_rows, img_cols = 224, 224
 
 # the data, split between train and test sets
-(x_train, y_train), (x_test, y_test) = mnist.load_data()
+#(x_train, y_train), (x_test, y_test) = mnist.load_data()
 
+train_path = '/Users/que/Data/data/train/'
+train_batch = os.listdir(train_path)
+x_train = []
+y_train = []
+x_train, y_train = read_and_process_image(train_batch, train_path)
+x_train = x_train.reshape(x_train, img_rows, img_cols)
+y_train = y_train.reshape(y_train, img_rows, img_cols)
 
+test_path = '/Users/que/Data/data/test/'
+test_batch = os.listdir(test_path)
+x_test = []
+y_test = []
+x_test, y_test = read_and_process_image(test_batch, test_path)
+x_test = x_test.reshape(x_test, img_rows, img_cols)
+y_test = y_test.reshape(y_test, img_rows, img_cols)
+
+print(type(x_train))
+print(y_train.shape)
+print(x_test.shape)
+print(y_test.shape)
+sys.exit()
 
 if K.image_data_format() == 'channels_first':
     x_train = x_train.reshape(x_train.shape[0], 1, img_rows, img_cols)
@@ -35,12 +84,6 @@ else:
     x_train = x_train.reshape(x_train.shape[0], img_rows, img_cols, 1)
     x_test = x_test.reshape(x_test.shape[0], img_rows, img_cols, 1)
     input_shape = (img_rows, img_cols, 1)
-
-print(x_train.shape)
-print(y_train.shape)
-print(x_test.shape)
-print(y_test.shape)
-sys.exit()
 
 x_train = x_train.astype('float32')
 x_test = x_test.astype('float32')
