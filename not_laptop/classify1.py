@@ -14,13 +14,13 @@ from keras.layers import Conv2D, MaxPooling2D
 from keras.layers import Activation, Dropout, Flatten, Dense
 from keras import backend as K
 
-img_path = 'dogsmiling.jpg'
-img_path = '/Users/que/Data/ACV_SS19/catdog/training_data/dogs/dog000.jpg'
-#img_path = '/Users/que/Data/ACV_SS19/catdog/training_data/cats/cat003.jpg'
-import_path = '/Users/que/Downloads/vicious_dog_0.png'
-
+img_path = 'trying_data/dogsmiling.jpg'
+img_path = 'trying_data/63.tucano-shine-slim-tasche-fuer-macbook-pro-13-blau_z1_600x600.jpg'
+#img_path = 'trying_data/63.Acer-Nitro-5-AN515-43-wp-03.jpg'
+img_path = 'training_data/laptops/laptop000.jpg'
+#img_path = 'training_data/notlaptops/notlaptop001.jpg'
 from keras.models import load_model
-model = load_model('model-dc.h5')
+model = load_model('not-laptop-on-mac.h5')
 model.compile(optimizer = 'adam', loss = 'binary_crossentropy', metrics = ['accuracy'])
 
 from keras.preprocessing import image
@@ -31,7 +31,9 @@ test_image = np.expand_dims(test_image, axis=0)
 #test_image = preprocess_input(test_image)
 #predict the result
 result = model.predict(test_image)
-
+y_pred = model.predict_classes(test_image, 1, verbose=0)
+print(y_pred)
+print(result)
 #print(result)
-if (result[0][0] == 1): print("dog")
-if (result[0][0] == 0): print("cat")
+if (result[0][0] == 0): print("laptop")
+if (result[0][0] == 1): print("NOT laptop")

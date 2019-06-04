@@ -123,4 +123,4 @@ model.fit_generator(
     validation_data=validation_generator,
     validation_steps=nb_validation_samples // batch_size)
 
-model.save('laptop1.h5')
+model.save('not-laptop-on-mac.h5')
