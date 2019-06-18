@@ -1,5 +1,4 @@
-''' To be run in the main computer.
-It compiles the model and saves it as an .h5 file
+''' To be run in the main computer. It compiles the model and saves it as an .h5 file
 '''
 
 from keras import backend as K
@@ -9,9 +8,10 @@ from keras.preprocessing.image import ImageDataGenerator
 from keras.models import Sequential, load_model
 from keras.layers import Activation, Dropout, Flatten, Dense, Conv2D, MaxPooling2D
 import numpy as np
+from keras.utils import plot_model
+import pydot
 
-
-# dimensions of our images.
+# Dimensions of our images.
 img_width, img_height = 150, 150
 train_data_dir = 'training_data'
 validation_data_dir = 'testing_data'
@@ -79,3 +79,4 @@ model.fit_generator(
     validation_steps = nb_validation_samples // batch_size)
 
 model.save('not-laptop-on-mac-25.h5')
+plot_model(model, to_file='model.png')

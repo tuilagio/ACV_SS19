@@ -6,8 +6,10 @@ from keras.applications.resnet50 import ResNet50, preprocess_input, decode_predi
 from keras.layers import Activation, Dropout, Flatten, Dense, Conv2D, MaxPooling2D
 import numpy as np
 import os
+from keras.utils import plot_model
 
-model = load_model('not-laptop-on-mac.h5')
+
+model = load_model('not-laptop-on-mac-75.h5')
 model.compile(optimizer = 'adam', loss = 'binary_crossentropy', metrics = ['accuracy'])
 
 test_laptops_dir = 'testing_data/laptops'
