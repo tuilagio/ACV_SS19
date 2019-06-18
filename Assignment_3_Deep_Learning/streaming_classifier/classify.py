@@ -31,11 +31,12 @@ for file in os.listdir(test_laptops_dir):
     # print(result)
 
     # Print(result)
-    if (result[0][0] == 0):
-        print("Laptop")
+    print(result[0][0])
+    if (result[0][0] < 0.1):
+        #print("Laptop")
         correct_guesses += 1
-    if (result[0][0] == 1):
-        print("Not laptop")
+    if (result[0][0] > 0.9):
+        #print("Not laptop")
         incorrect_guesses  += 1
     counter += 1
 
